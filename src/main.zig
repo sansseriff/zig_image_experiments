@@ -21,9 +21,8 @@ pub fn main() !void {
 
     // const rowStride = width * 3;
 
-    std.debug.print("here?\n", .{});
+    // std.debug.print("here?\n", .{});
     var buffer: [30000]u8 = undefined;
-    std.debug.print("after?\n", .{});
 
     var i: u64 = 0;
     var j: u64 = 0;
@@ -32,7 +31,6 @@ pub fn main() !void {
     var r: u8 = 0;
     var g: u8 = 0;
     var b: u8 = 0;
-    // var a: u8 = 0;
 
     std.debug.print("starting\n", .{});
     while (i < 100) {
@@ -40,22 +38,11 @@ pub fn main() !void {
         j = 0;
         while (j < 100) {
             k = 0;
-            // while (k < 3) {
-            //     thing = @truncate(u8, i + j + 30 * k);
-            //     buffer[i + j + k] = thing;
-
-            //     if ((i + j + k) == 64) {
-            //         std.debug.print("i: {any}\n", .{i});
-            //         std.debug.print("j: {any}\n", .{j});
-            //         std.debug.print("k: {any}\n", .{k});
-            //         std.debug.print("\n", .{});
-            //     }
-
-            //     k += 1;
-            // }
-            r = @truncate(u8, 100 + j - i);
-            g = @truncate(u8, 100 + i - j);
-            b = @truncate(u8, i + j);
+            r = @truncate(u8, @floatToInt(u64, 50 + (@intToFloat(f32, j) * 0.3) * (@intToFloat(f32, i) * 0.3) / 5.0));
+            // g = @truncate(u8, 255 - 100 + i - j);
+            g = @truncate(u8, @floatToInt(u64, 50 + (@intToFloat(f32, 100 - j) * 0.3) * (@intToFloat(f32, i) * 0.3) / 5.0));
+            // b = @truncate(u8, i + j);
+            b = @truncate(u8, @floatToInt(u64, 50 + (@intToFloat(f32, j) * 0.3) * (@intToFloat(f32, 100 - i) * 0.3) / 5.0));
             buffer[i * 300 + j * 3 + 0] = r;
             buffer[i * 300 + j * 3 + 1] = g;
             buffer[i * 300 + j * 3 + 2] = b;
@@ -64,23 +51,6 @@ pub fn main() !void {
         }
         i += 1;
     }
-
-    // while (i < buffer.len) {
-    //     buffer[i] = 32;
-    //     i += 1;
-    // }
-    // buffer[0] = 255;
-    // buffer[1] = 0;
-    // buffer[2] = 0;
-    // buffer[3] = 100;
-
-    // buffer[299] = 255;
-
-    // buffer[]
-
-    // buffer[300 + 1] = 255;
-
-    // std.debug.print("ending\n", .{});
 
     var result = c.stbi_write_png("./test.png", 100, 100, 3, &buffer, 300);
 
